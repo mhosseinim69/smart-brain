@@ -227,7 +227,6 @@ class App extends Component {
     render() {
     const { isSignedIn, imageUrl, route, box } = this.state;
     const particlesInit = async (main) => {
-    console.log(main);
     await loadFull(main);
   };
     return (
