@@ -187,13 +187,28 @@ class App extends Component {
 
     onButtonSubmit = () => {
         this.setState({imageUrl: this.state.input});
-            fetch('https://smart-brain-api-fit8.onrender.com/imageurl', {
-                method: 'post',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    input: this.state.input
-                })
-            })
+        const USER_ID = 'mhosseinim69';
+        const PAT = '714d3f9392cc4f45bb10a44d51175df0';
+        const APP_ID = 'my-first-application';
+        const MODEL_ID = 'face-detection';
+        const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';    
+        const IMAGE_URL = this.state.input;
+        const raw = JSON.stringify({
+          "user_app_id": {
+              "user_id": USER_ID,
+              "app_id": APP_ID
+          },
+          "inputs": [{"data": {"image": {"url": IMAGE_URL}}}]
+        });
+        
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Key ' + PAT
+          }, body: raw
+        };
+        fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
             .then(response => response.json())
             .then(response => {
                 if (response) {
